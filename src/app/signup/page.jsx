@@ -1,6 +1,8 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { toast } from "sonner";
 
 const SignupPage = () => {
   const handleSignUp = async (event) => {
@@ -10,7 +12,20 @@ const SignupPage = () => {
       email: event.target.email.value,
       password: event.target.password.value,
     };
-    console.log(newUser);
+
+    // api call
+    const response = await fetch("http://localhost:3000/signup/api", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newUser),
+    });
+    if (response.status === 200) {
+      event.target.reset();
+      toast.success("User created successfully");
+      redirect("/login");
+    }
   };
 
   return (
