@@ -1,13 +1,26 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
+  const router = useRouter();
+
   const handleLogin = async (event) => {
     event.preventDefault();
     const email = event.target.email.value;
     const password = event.target.password.value;
-    console.log(email, password);
+
+    const response = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (response.status === 200) {
+      router.push("/");
+    }
   };
 
   return (
