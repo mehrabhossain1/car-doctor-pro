@@ -28,7 +28,7 @@ const SignupPage = () => {
           <h6 className="text-3xl font-semibold text-primary text-center mb-12">
             Sign Up
           </h6>
-          <form onSubmit={handleSignUp} action="">
+          <form onSubmit={handleSignUp}>
             <label htmlFor="email">Name</label> <br />
             <input
               type="text"
