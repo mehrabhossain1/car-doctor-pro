@@ -28,7 +28,7 @@ const About = () => {
           <p className="py-6">
             There are many variations of passages of Lorem Ipsum available, but
             the majority have suffered alteration in some form, by injected
-            humour, or randomised words which do not look even slightly
+            humour, or randomized words which do not look even slightly
             believable.
           </p>
 
