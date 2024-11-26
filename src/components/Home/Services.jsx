@@ -1,8 +1,8 @@
-import { services } from "@/lib/services";
+import { getServices } from "@/services/getServices";
 import ServiceCard from "../Cards/ServiceCard";
 
-const Services = () => {
-  console.log(services);
+const Services = async () => {
+  const { services } = await getServices();
 
   return (
     <div className="text-slate-800 min-h-screen">
@@ -14,9 +14,10 @@ const Services = () => {
         </p>
       </div>
       <div className="container mx-auto mt-12 grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {services?.map((service) => (
-          <ServiceCard service={service} key={service._id} />
-        ))}
+        {services?.length > 0 &&
+          services?.map((service) => (
+            <ServiceCard service={service} key={service._id} />
+          ))}
       </div>
     </div>
   );
