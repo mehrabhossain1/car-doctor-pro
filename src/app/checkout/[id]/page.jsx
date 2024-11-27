@@ -2,39 +2,46 @@
 import { getServicesDetails } from "@/services/getServices";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { use } from "react";
 
 const Checkout = ({ params }) => {
+  const { id } = use(params);
+
   const { data } = useSession();
   const [service, setService] = useState({});
   const loadService = async () => {
-    const details = await getServicesDetails(params.id);
+    const details = await getServicesDetails(id);
     setService(details.service);
   };
   const { _id, title, description, img, price, facility } = service || {};
 
+  console.log(service);
+
   const handleBooking = async (event) => {
-    //   event.preventDefault();
-    //   const newBooking = {
-    //       email : data?.user?.email,
-    //       name : data?.user?.name,
-    //       address : event.target.address.value,
-    //       phone : event.target.phone.value,
-    //       date : event.target.date.value,
-    //       serviceTitle : title,
-    //       serviceID : _id,
-    //       price : price,
-    //   }
-    //   const resp = await fetch('https://car-doctor-pro-nine.vercel.app/checkout/api/new-booking', {
-    //       method: 'POST',
-    //       body: JSON.stringify(newBooking),
-    //       headers : {
-    //           "content-type" : "application/json"
-    //       }
-    //   })
-    //   const response =await resp?.json()
-    //   toast.success(response?.message)
-    //   event.target.reset()
+    event.preventDefault();
+    const newBooking = {
+      email: data?.user?.email,
+      name: data?.user?.name,
+      address: event.target.address.value,
+      phone: event.target.phone.value,
+      date: event.target.date.value,
+      serviceTitle: title,
+      serviceID: _id,
+      price: price,
+    };
+
+    const resp = await fetch("http://localhost:3000/checkout/api/new-booking", {
+      method: "POST",
+      body: JSON.stringify(newBooking),
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    const response = await resp?.json();
+    toast.success(response?.message);
+    event.target.reset();
   };
 
   useEffect(() => {
@@ -46,7 +53,7 @@ const Checkout = ({ params }) => {
       <div className="relative  h-72">
         <Image
           className="absolute h-72 w-full left-0 top-0 object-cover"
-          src={img}
+          src={img || ""}
           alt="service"
           width={1920}
           height={1080}

@@ -13,6 +13,6 @@ export const POST = async (request) => {
       { status: 200 }
     );
   } catch (error) {
-    console.log(error);
+    return Response.json({ message: "Something went wrong" }, { status: 500 });
   }
 };
