@@ -14,13 +14,16 @@ const SignupPage = () => {
     };
 
     // api call
-    const response = await fetch("http://localhost:3000/signup/api", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newUser),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/signup/api`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newUser),
+      }
+    );
     if (response.status === 200) {
       event.target.reset();
       toast.success("User created successfully");

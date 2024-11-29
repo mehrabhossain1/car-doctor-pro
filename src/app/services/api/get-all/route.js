@@ -9,6 +9,6 @@ export const GET = async () => {
     const services = await servicesCollection.find().toArray();
     return NextResponse.json({ services });
   } catch (error) {
-    console.log(error);
+    return NextResponse.json({ message: "No Data Found" });
   }
 };

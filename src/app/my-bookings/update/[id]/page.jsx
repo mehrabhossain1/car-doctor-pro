@@ -12,7 +12,7 @@ const Page = ({ params }) => {
 
   const loadBooking = async () => {
     const bookingDetail = await fetch(
-      `http://localhost:3000/my-bookings/api/booking/${id}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/my-bookings/api/booking/${id}`
     );
     const data = await bookingDetail.json();
     setBooking(data.data);
@@ -26,7 +26,7 @@ const Page = ({ params }) => {
       address: event?.target.address.value,
     };
     const resp = await axios.patch(
-      `http://localhost:3000/my-bookings/api/booking/${id}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/my-bookings/api/booking/${id}`,
       updatedBooking,
       {
         headers: {
