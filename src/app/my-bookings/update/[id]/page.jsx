@@ -1,16 +1,18 @@
 "use client";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { use } from "react";
+import axios from "axios";
 
 const Page = ({ params }) => {
+  const { id } = use(params);
   const { data } = useSession();
   const [booking, setBooking] = useState([]);
 
   const loadBooking = async () => {
     const bookingDetail = await fetch(
-      `http://localhost:3000/my-bookings/api/booking/${params.id}`
+      `http://localhost:3000/my-bookings/api/booking/${id}`
     );
     const data = await bookingDetail.json();
     setBooking(data.data);
@@ -19,17 +21,16 @@ const Page = ({ params }) => {
   const handleUpdateBooking = async (event) => {
     event.preventDefault();
     const updatedBooking = {
-      date: event.target.date.value,
-      phone: event.target.phone.value,
-      address: event.target.address.value,
+      date: event?.target.date.value,
+      phone: event?.target.phone.value,
+      address: event?.target.address.value,
     };
-    const resp = await fetch(
-      `http://localhost:3000/my-bookings/api/booking/${params.id}`,
+    const resp = await axios.patch(
+      `http://localhost:3000/my-bookings/api/booking/${id}`,
+      updatedBooking,
       {
-        method: "PATCH",
-        body: JSON.stringify(updatedBooking),
         headers: {
-          "content-type": "application/json",
+          "Content-Type": "application/json",
         },
       }
     );
@@ -45,14 +46,14 @@ const Page = ({ params }) => {
   return (
     <div className="container mx-auto">
       <div className="relative  h-72">
-        <Image
+        {/* <Image
           className="absolute h-72 w-full left-0 top-0 object-cover"
-          src={""}
+          src={params?.img}
           alt="service"
           width={1920}
           height={1080}
           style={{ width: "90vw" }}
-        />
+        /> */}
         <div className="absolute h-full left-0 top-0 flex items-center justify-center bg-gradient-to-r from-[#151515] to-[rgba(21, 21, 21, 0)] ">
           <h1 className="text-white text-3xl font-bold flex justify-center items-center ml-8">
             Update Booking

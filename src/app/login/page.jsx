@@ -2,10 +2,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const LoginPage = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const path = searchParams.get("redirect");
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -15,7 +17,8 @@ const LoginPage = () => {
     const response = await signIn("credentials", {
       email,
       password,
-      redirect: false,
+      redirect: true,
+      callbackUrl: path ? path : "/",
     });
 
     if (response.status === 200) {
