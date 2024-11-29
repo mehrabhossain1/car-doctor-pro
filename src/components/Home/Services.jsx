@@ -1,6 +1,5 @@
-import React from "react";
-import ServiceCard from "../cards/ServiceCard";
 import { getServices } from "@/services/getServices";
+import ServiceCard from "../Cards/ServiceCard";
 
 const Services = async () => {
   const { services } = await getServices();
